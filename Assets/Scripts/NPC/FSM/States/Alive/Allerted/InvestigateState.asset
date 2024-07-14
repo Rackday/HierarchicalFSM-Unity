@@ -10,13 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0e7b5ba3c7cfc843bcdd88fcd76de11, type: 3}
-  m_Name: AllertedState
+  m_Name: InvestigateState
   m_EditorClassIdentifier: 
   entryAction: {fileID: 0}
   actions: []
   exitAction: {fileID: 0}
   transitions: []
   initialSubState: {fileID: 0}
-  subStates:
-  - {fileID: 11400000, guid: 2b78b9f86149a78428dec023d904681d, type: 2}
-  - {fileID: 11400000, guid: fbe352a449bf7e249b0e2dfd128ed16b, type: 2}
+  subStates: []
