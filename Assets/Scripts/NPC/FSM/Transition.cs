@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Finite State Machine/Transition")] 
-public class StateTransition : ScriptableObject
+public class Transition : ScriptableObject
 {
     //Variables
     [SerializeField] private State targetState;

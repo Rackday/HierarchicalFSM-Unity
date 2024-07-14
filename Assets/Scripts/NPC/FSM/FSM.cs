@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class FSM : MonoBehaviour
 {
-    public State initialState;
-    public State currentState;
-    public NPCController controller;
+    [SerializeField] private State initialState;
+    [SerializeField] private State currentState;
+    [SerializeField] private NPCController controller;
+
+    public NPCController Controller => controller;
 
     void Awake()
     {
@@ -20,26 +22,36 @@ public class FSM : MonoBehaviour
 
     void Update()
     {
-        if (currentState != null)
-        {
-            //Executes the actions of the current state
-            foreach (Action action in currentState.GetActions())
-            {
-                action.Execute(this);
-            }
+        if (currentState == null) return;
 
-            //Foreach through all the current state transitions
-            foreach (StateTransition transition in currentState.Transitions())
+        ExecuteState(currentState);
+    }
+
+
+    private void ExecuteState(State state)
+    {
+        state.ExecuteActions(this);
+
+        Transition triggeredTransition = state.GetTriggeredTransition(this);
+
+        if (triggeredTransition != null)
+        {
+            ChangeState(triggeredTransition.TargetState());
+        }
+        else if (state.SubStates() != null)
+        {
+            foreach (State substate in state.SubStates())
             {
-                //Checks if the transition is triggered (true)
-                if (transition.IsTriggered(this))
-                {
-                    currentState.ExitAction().Execute(this); //Exececutes the exit action of the current state
-                    currentState = transition.TargetState(); //Changes the state
-                    currentState.GetEntryAction().Execute(this); //Executes the entry action
-                    break;
-                }
+                ExecuteState(substate);
             }
         }
+    }
+
+    //Changes the current state to a new state
+    public void ChangeState(State newState)
+    {
+        currentState?.ExitAction().Execute(this); //Exececutes the exit action of the current state
+        currentState = newState; //Changes the state
+        currentState?.Enter(this); //Executes
     }
 }
