@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 178948f6e19f1634cb1b9e36eec55f17, type: 3}
   m_Name: PatrolWalkAction
   m_EditorClassIdentifier: 
-  waitTime: 0
-  distOffSet: 0
+  waitTime: 3
+  distOffSet: 0.1
+  isWaiting: 0

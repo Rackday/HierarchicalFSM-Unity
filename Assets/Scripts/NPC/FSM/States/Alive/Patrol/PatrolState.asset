@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e7b5ba3c7cfc843bcdd88fcd76de11, type: 3}
   m_Name: PatrolState
   m_EditorClassIdentifier: 
-  entryAction: {fileID: 0}
-  actions: []
+  entryAction: {fileID: 11400000, guid: 866e0d454bb072641800b7939c862b81, type: 2}
+  actions:
+  - {fileID: 11400000, guid: a71dcfefa04e51942b941e504ec1f3d2, type: 2}
   exitAction: {fileID: 0}
   transitions: []
   initialSubState: {fileID: 0}
-  subStates:
-  - {fileID: 0}
+  subStates: []
