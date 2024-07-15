@@ -15,6 +15,7 @@ public class PatrolEntryAction : Action
     {
         NavMeshAgent agent = fsm.Controller.Agent;
         Waypoints waypoints = fsm.Controller.Waypoints;
+        Animator animator = fsm.Controller.Animator;
 
         //Generates a random index
         int randomIndex = Random.Range(0, waypoints.WaypointsList.Length);
@@ -22,5 +23,7 @@ public class PatrolEntryAction : Action
         //Sets agent destination to the random position
         startPosition = waypoints.WaypointsList[randomIndex].transform.position;
         agent.destination = startPosition;
+        animator.SetBool("IsMoving", true);
+        fsm.Controller.Agent.isStopped = false;
     }
 }
