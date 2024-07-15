@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 velocity;
     private Animator animator;
 
+    [SerializeField] private bool crouch;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        IsCrouched();
         // Read input values once per frame
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -45,8 +48,20 @@ public class PlayerController : MonoBehaviour
         Debug.Log("IsRunning: " + IsRunning());
         Debug.Log("Horizontal: " + velocity.x);
         Debug.Log("Vertical: " + velocity.y);
+
+        animator.SetBool("Crouched", crouch);
     }
 
+    //Checks if the player is running
     private bool IsRunning() => Input.GetKey(KeyCode.LeftShift) ? true : false;
+
+
+    private void IsCrouched()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            crouch = !crouch;
+        }
+    }
 
 }
