@@ -8,7 +8,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 velocity;
     private Animator animator;
 
-    [SerializeField] private bool crouch;
+    [SerializeField] private bool crouch = false;
+    [SerializeField] private bool canCrouchCover = false;
 
     private void Awake()
     {
@@ -19,7 +20,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-            
+        animator.applyRootMotion = true;
     }
 
     // Update is called once per frame
@@ -45,11 +46,12 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Vertical", velocity.y);
 
         // Debug logs
-        Debug.Log("IsRunning: " + IsRunning());
-        Debug.Log("Horizontal: " + velocity.x);
-        Debug.Log("Vertical: " + velocity.y);
+        //Debug.Log("IsRunning: " + IsRunning());
+        //Debug.Log("Horizontal: " + velocity.x);
+        //Debug.Log("Vertical: " + velocity.y);
 
         animator.SetBool("Crouched", crouch);
+        animator.SetBool("CrouchCover", canCrouchCover);
     }
 
     //Checks if the player is running
@@ -64,4 +66,32 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnCollisionStay(Collision collision)
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log("COLLISION!");
+            foreach (ContactPoint contact in collision.contacts)
+            {
+                if (contact.otherCollider.tag == "SmallWall") canCrouchCover = !canCrouchCover;
+                break;
+            }
+        }
+    }
+
+    private void OnAnimatorMove()
+    {
+        Vector3 pos;
+        if(canCrouchCover)
+        {
+            pos = new Vector3(transform.position.x, transform.position.y, animator.rootPosition.z);
+            transform.position = pos;
+        }
+        
+        else
+        {
+            transform.position = animator.rootPosition;
+            transform.rotation = animator.rootRotation;
+        }
+    }
 }
